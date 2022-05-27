@@ -8,7 +8,17 @@ import cv2
 import numpy as np
 from skimage.feature import corner_harris, corner_shi_tomasi, peak_local_max
 
-def getFeatures(img,bbox,use_shi=False):
+def getFeatures(img,bbox,use_shi=False): 
+    #all features
+    # all_corner_response = corner_shi_tomasi(img)
+    # all_coordinates = peak_local_max(all_corner_response,num_peaks=2000,exclude_border=2)
+    # img_color=img.copy()
+    # for i in range(all_coordinates.shape[0]):
+    #     cv2.circle(img_color,(all_coordinates[i,1],all_coordinates[i,0]),radius=2,color=(255,0,0),thickness=-1)
+    # cv2.imwrite("corners.bmp",img_color)
+    # cv2.imshow("all_corner_response",img_color)
+    # cv2.waitKey(10)
+
     n_object = np.shape(bbox)[0]
     N = 0
     temp = np.empty((n_object,),dtype=np.ndarray)   # temporary storage of x,y coordinates

@@ -10,7 +10,7 @@ import numpy as np
 from getFeatures import getFeatures
 from estimateAllTranslation import estimateAllTranslation
 from applyGeometricTransformation import applyGeometricTransformation
-
+import time
 
 def objectTracking(rawVideo, draw_bb=False, play_realtime=False, save_to_file=False):
     # initilize
@@ -40,9 +40,10 @@ def objectTracking(rawVideo, draw_bb=False, play_realtime=False, save_to_file=Fa
     startXs,startYs = getFeatures(cv2.cvtColor(frames[0],cv2.COLOR_RGB2GRAY),bboxs[0],use_shi=False)
     for i in range(1,n_frame):
         print('Processing Frame',i)
+        start_t=time.time()
         newXs, newYs = estimateAllTranslation(startXs, startYs, frames[i-1], frames[i])
         Xs, Ys ,bboxs[i] = applyGeometricTransformation(startXs, startYs, newXs, newYs, bboxs[i-1])
-        
+        print('Processing time =',time.time()-start_t)
         # update coordinates
         startXs = Xs
         startYs = Ys
@@ -75,11 +76,11 @@ def objectTracking(rawVideo, draw_bb=False, play_realtime=False, save_to_file=Fa
     # loop the resulting video (for debugging purpose only)
     # while 1:
     #     for i in range(1,n_frame):
-    #         cv2.imshow("win",frames_draw[i])
+    #         cv2.imshow("win",frames_dr1aw[i])
     #         cv2.waitKey(50)
 
 
 if __name__ == "__main__":
-    cap = cv2.VideoCapture("Medium.mp4")
-    objectTracking(cap,draw_bb=True,play_realtime=True,save_to_file=True)
+    cap = cv2.VideoCapture("Easy.mp4")
+    objectTracking(cap,draw_bb=True,play_realtime=True,save_to_file=False)
     cap.release()
